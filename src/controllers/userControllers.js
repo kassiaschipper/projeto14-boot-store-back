@@ -39,4 +39,9 @@ const login = async (req, res) => {
   }
 };
 
-export { signUp, login };
+async function getUser() {
+  const findUser = await db.collection("users").findOne();
+  return findUser;
+}
+
+export { signUp, login, getUser };
