@@ -15,8 +15,8 @@ server.use(productstRoute);
 
 server.get("/status", (req, res) => {
   return res.send("Ok");
-})  
+});
 
-server.listen(5000, () =>
-  console.log(`Listening on port ${process.env.PORT_API}`)
+server.listen(process.env.PORT, () =>
+  console.log(`Listening on port ${process.env.PORT}`)
 );
