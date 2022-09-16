@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import userRouters from "./routers/userRouters.js";
 import productstRoute from "./routers/productsRoute.js";
+import chartRoute from "./routers/chartRoute.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ server.use(cors());
 
 server.use(userRouters);
 server.use(productstRoute);
+server.use(chartRoute);
 
 server.get("/status", (req, res) => {
   return res.send("Ok");
