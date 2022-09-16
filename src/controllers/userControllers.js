@@ -44,4 +44,9 @@ async function getUser() {
   return findUser;
 }
 
-export { signUp, login, getUser };
+async function getSession(){
+  const currentSession = await db.collection("sessions").findOne();
+  return currentSession;
+}
+
+export { signUp, login, getUser, getSession };
