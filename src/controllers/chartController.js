@@ -34,11 +34,40 @@ async function getChartItens(req, res) {
       chartItems.push(item);
       chartTotalPrice += finalPrice;
     }
-    
-    return res.send({chartItems, chartTotalPrice});
+
+    return res.send({ chartItems, chartTotalPrice });
   } catch (error) {
     console.log(error);
     return res.status(500);
+  }
+}
+
+async function updateChart(req, res) {
+  const { product_id, amount  } = req.body;
+
+  try {
+    const session = await getSession();
+    if (!session) {
+      return res.status(404);
+    }
+
+    const chart = session.chart;
+        
+    const newProduct = {
+      product_id,
+      amount,
+    }
+
+    const result = await db.collection("sessions").updateOne(
+      { _id: session._id }, 
+      { $set: { chart: [...chart, newProduct] } }, 
+      { upsert: false }
+    );
+    return res.send(result);
+
+  } catch (error) {
+
+    return res.sendStatus(500);
   }
 }
 
@@ -55,17 +84,16 @@ async function deleteChartItem(req, res) {
       return value.product_id !== id;
     });
 
-    if(filtered.length === chart.length){ // se as listas tiverem tamanhos iguais significa que o id procurado para deletar não existe
-        return res.status(404);
+    // se as listas tiverem tamanhos iguais significa que o id procurado para deletar não existe
+    if (filtered.length === chart.length) {
+      return res.status(404);
     }
-    const result = await db
-      .collection("sessions")
-      .updateOne(
-        { _id: session._id }, //filter
-        { $set: { chart: filtered } },//value to update
-        { upsert: false }
-      );
-    
+    const result = await db.collection("sessions").updateOne(
+      { _id: session._id }, //filter
+      { $set: { chart: filtered } }, //value to update
+      { upsert: false }
+    );
+
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -73,4 +101,4 @@ async function deleteChartItem(req, res) {
   }
 }
 
-export { getChartItens, deleteChartItem };
+export { getChartItens, deleteChartItem, updateChart };
