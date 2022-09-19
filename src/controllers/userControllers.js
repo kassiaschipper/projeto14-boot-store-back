@@ -66,4 +66,15 @@ const userName = async (req, res) => {
   }
 };
 
-export { signUp, login, getUser, getSession, userAddress , userName  };
+const logout = async(req, res) =>{
+  try {
+    const clearSession = await db.collection("sessions").deleteMany({});
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error)
+    res.send(400);
+  }
+
+}
+
+export { signUp, login, getUser, getSession, userAddress , userName , logout  };

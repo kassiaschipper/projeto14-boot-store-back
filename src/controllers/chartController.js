@@ -17,6 +17,7 @@ async function getChartItens(req, res) {
 
     let chartTotalPrice = 0;
 
+
     for (let i = 0; i < chart.length; i++) {
       let element = chart[i];
 
@@ -28,13 +29,13 @@ async function getChartItens(req, res) {
         price: productFound.price,
         amount: element.amount,
         finalPrice: finalPrice,
+        id: element.product_id,
       };
       chartItems.push(item);
       chartTotalPrice += finalPrice;
     }
-    res.locals.totalPrice = chartTotalPrice;
-    console.log(res.locals.totalPrice);
-    return res.send(chartItems);
+    
+    return res.send({chartItems, chartTotalPrice});
   } catch (error) {
     console.log(error);
     return res.status(500);
@@ -42,7 +43,7 @@ async function getChartItens(req, res) {
 }
 
 async function deleteChartItem(req, res) {
-  const { id } = req.body;
+  const { id } = req.params;
 
   try {
     const session = await getSession();

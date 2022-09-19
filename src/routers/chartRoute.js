@@ -3,6 +3,6 @@ import { getChartItens, deleteChartItem } from "../controllers/chartController.j
 
 const router = express.Router();
 router.get("/chart", getChartItens);
-router.delete("/item", deleteChartItem);
+router.delete(`/deleteItem/:id`, deleteChartItem);
 
 export default router;
