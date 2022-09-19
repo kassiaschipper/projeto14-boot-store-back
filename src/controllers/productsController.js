@@ -19,4 +19,16 @@ async function getProducts(req, res) {
   }
 }
 
-export { getProducts };
+async function postProduct(req, res) {
+  try {
+    const product = req.body;
+
+    await db.collection("products").insertOne(product);
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+}
+
+export { getProducts, postProduct };
