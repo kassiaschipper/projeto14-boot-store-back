@@ -17,6 +17,7 @@ const signUp = async (req, res) => {
     db.collection("sessions").insertOne({
       email: req.body.email,
       token,
+      chart:[],
     });
     res.status(201).send(token);
   } catch (error) {

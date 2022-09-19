@@ -1,8 +1,10 @@
 import express from "express";
-import { getChartItens, deleteChartItem } from "../controllers/chartController.js";
+import { getChartItens, deleteChartItem, updateChart } from "../controllers/chartController.js";
 
 const router = express.Router();
-router.get("/chart", getChartItens);
+router.get(`/chart`, getChartItens);
 router.delete(`/deleteItem/:id`, deleteChartItem);
+router.put(`/updateChart`, updateChart)
+
 
 export default router;
