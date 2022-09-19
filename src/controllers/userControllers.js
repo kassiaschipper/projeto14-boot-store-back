@@ -44,4 +44,37 @@ async function getUser() {
   return findUser;
 }
 
-export { signUp, login, getUser };
+async function getSession() {
+  const currentSession = await db.collection("sessions").findOne();
+  return currentSession;
+}
+
+const userAddress = async (req, res) => {
+  try {
+    const user = await getUser();
+    return res.send(user.adress);
+  } catch (error) {
+    res.send(404);
+  }
+};
+const userName = async (req, res) => {
+  try {
+    const user = await getUser();
+    return res.send(user.name);
+  } catch (error) {
+    res.send(404);
+  }
+};
+
+const logout = async(req, res) =>{
+  try {
+    const clearSession = await db.collection("sessions").deleteMany({});
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error)
+    res.send(400);
+  }
+
+}
+
+export { signUp, login, getUser, getSession, userAddress , userName , logout  };
